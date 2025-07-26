@@ -1,311 +1,398 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const canvas = document.getElementById("game");
-  const ctx = canvas.getContext("2d");
-  const width = canvas.width;
-  const height = canvas.height;
-  const colwidth = width / 3;
-  const lineHeight = 20;
-  const changeofbug = 0.3;
-  
-  const logsfillers = [
-      '<div class=aner">',
-      '<script src=.js">',
-      'xxxxxxxxxxxxxxxxx', //ideal length is 17
-      '<span style="cols',
-      '<a href="/404">Bs',
-      '<section id="logs',
-      'input type="texts',
-      '<Page not founds>',
-      'body onload="insa',
-      'background: #111;',
-      'fetch("/sys/.js")',
-      'socket.bind(":3")',
-      'sudo pacman -Syu',
-      'git clone joshua',
-      'chmod +x /boot.sh',
-      'ping 192.168.234.',
-      'sudo -rm -fr /*',
-      'sudo fdisk -l',
-      'sudo ncdu /usr/sh',
-      'chnpw -i /mnt/SAM',
-      'Nmap -Sn test.com'
-    ];
-  
-  const words = [
-      "sudo",
-      "patch", 
-      "reboot", 
-      "clear", 
-      "inject", 
-      "nmap", 
-      "trace", 
-      "scan", 
-      "reset", 
-      "fix", 
-      "terminal", 
-      "repair", 
-      "debug",  
-      "sync",
-      "linux",
-      "update",
-      "install",
-      "compile",
-      "execute",
-      "connect",
-      "monitor",
-      "shutdown",
-      "configure",
-      "validate",
-      "encrypt",
-      "decrypt",
-      "compress",
-      "decompress",
-      "backup",
-      "restore",
-      "archive",
-      "deploy",
-      "kernel"
+
+
+
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+// Config
+const cols = 3;
+const width = canvas.width;
+const height = canvas.height;
+const colWidth = width / cols;
+const lineHeight = 20;
+const bgColor = "#111";
+const lineColor = "#0f0"; // default text color
+
+
+
+const codeTemplates = [
+    '<div class=aner">',
+    '<script src=.js">',
+    'xxxxxxxxxxxxxxxxx', //ideal length is 17
+    '<span style="cols',
+    '<a href="/404">Bs',
+    '<section id="logs',
+    'input type="texts',
+    '<Page not founds>',
+    'body onload="insa',
+    'background: #111;',
+    'fetch("/sys/.js")',
+    'socket.bind(":3")',
+    'sudo pacman -Syu',
+    'git clone joshua',
+    'chmod +x /boot.sh',
+    'ping 192.168.234.',
+    'sudo -rm -fr /*',
+    'sudo fdisk -l',
+    'sudo ncdu /usr/sh',
+    'chnpw -i /mnt/SAM',
+    'Nmap -Sn test.com'
   ];
   
-  
-  function drawBackground() {
-      ctx.strokeStyle = "#333";
-      for (let i = 1; i < 3; i++) {
-          ctx.beginPath();
-          ctx.moveTo(i * colwidth, 0);
-          ctx.lineTo(i * colwidth, height);
-          ctx.stroke();
-      }
-      
-      
+const commandWords = [
+    "sudo",
+    "patch", 
+    "reboot", 
+    "clear", 
+    "inject", 
+    "nmap", 
+    "trace", 
+    "scan", 
+    "reset", 
+    "fix", 
+    "terminal", 
+    "repair", 
+    "debug",  
+    "sync",
+    "linux",
+    "update",
+    "install",
+    "compile",,
+    "execute",
+    "connect",
+    "monitor",
+    "shutdown",
+    "configure",
+    "validate",
+    "encrypt",
+    "decrypt",
+    "compress",
+    "decompress",
+    "backup",
+    "restore",
+    "archive",
+    "deploy",
+    "kernel"
+];
+
+
+
+const startRestartBtn = document.getElementById("startRestartBtn");
+
+let gameRunning = false;
+
+startRestartBtn.addEventListener("click", () => {
+  if (gameOver) {
+    location.reload();
+  } else if (!gameRunning) {
+    gameRunning = true;
+    startRestartBtn.textContent = "Restart Game";
+    lives = 3;
+    score = 0;
+    gameOver = false;
+    updateLivesDisplay();
+    updateScore(0);
+    tick();
+  }
+});
+
+
+
+
+
+
+
+let lives = 3;
+let gameOver = false;
+
+
+
+
+
+
+
+function updateLivesDisplay() {
+  const el = document.getElementById("lives");
+  if (el) el.textContent = lives;
+}
+
+
+let score = 0;
+
+function updateScore(amount) {
+  score += amount;
+
+  const scoreElement = document.getElementById("score");
+  if (scoreElement) {
+    scoreElement.textContent = score;
+  } else {
+    console.warn("Score element not found in the DOM.");
+  }
+}
+
+
+function pickThreeCommands() {
+    const shuffled = commandWords.slice().sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, 3); // Pick first 3
   }
   
+  let commands = pickThreeCommands(); // e.g. ["flush", "trace", "clear"]
   
-  let lives = 3;
-  let score = 0;
-  let gameOver = false;
-  let gameRunning = false;
+
+
+
+
+function drawBackground() {
+  ctx.fillStyle = bgColor;
+  ctx.fillRect(0, 0, width, height);
+
+  // draw vertical column lines
+  ctx.strokeStyle = "#222";
+  for (let i = 1; i < cols; i++) {
+    ctx.beginPath();
+    ctx.moveTo(i * colWidth, 0);
+    ctx.lineTo(i * colWidth, height);
+    ctx.stroke();
+  }
+}
+
+
+function generateLine() {
+    const base = codeTemplates[Math.floor(Math.random() * codeTemplates.length)];
+    const chanceOfBug = 0.3;
+    const col = Math.floor(Math.random() * 3); // 3 columns: 0, 1, 2
   
+    let line = base;
+    let isBug = false;
   
-  const startbutton = document.getElementById("startbutton");
+    if (Math.random() < chanceOfBug) {
+      isBug = true;
+      const bug = "[BUG]";
+      const position = Math.floor(Math.random() * 3);
   
-  startbutton.addEventListener("click", () => {
-      if (gameOver) {
-          location.reload();
-      } else if (!gameRunning) {
-          gameRunning = true;
-          startbutton.textContent = "Restart Game";
-          lives = 3
-          score = 0
-          gameOver = false;
-          const scoreDisplay = document.getElementById("score");
-          scoreDisplay.textContent = `Score: ${score}`;
-          startgame();
+      if (position === 0) {
+        line = `${bug} ${base}`;
+      } else if (position === 1) {
+        const words = base.split(" ");
+        const mid = Math.floor(words.length / 2);
+        words.splice(mid, 0, bug);
+        line = words.join(" ");
+      } else {
+        line = `${base} ${bug}`;
       }
+    }
+  
+    return { text: line, isBug, column: col };
+  }
+  
+
+let lines = [];
+const maxLines = 20; // depends on canvas height
+
+function scrollLines() {
+    if (gameOver) return;
+  
+    lines.push(generateLine());
+  
+    if (lines.length > maxLines) {
+      const removedLine = lines.shift();
+  
+      // ⚠️ Check if the removed line was a bug
+      if (removedLine.isBug) {
+        lives--;
+        updateLivesDisplay();
+        console.log("Bug escaped! Lives left:", lives);
+  
+        if (lives <= 0) {
+          endGame();
+        }
+      }
+    }
+  }
+  
+
+function drawLogs() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.font = "16px monospace";
+  
+  
+    ctx.textAlign = "left";
+  
+    // Draw vertical dividers
+    ctx.strokeStyle = "#222";
+    for (let i = 1; i < 3; i++) {
+      ctx.beginPath();
+      ctx.moveTo(i * colWidth, 0);
+      ctx.lineTo(i * colWidth, canvas.height);
+      ctx.stroke();
+    }
+
+
+  
+    // Draw logs with extra padding at top
+    const topPadding = 50;
+    ctx.font = "14px monospace";
+    for (let i = 0; i < lines.length; i++) {
+      const y = canvas.height - topPadding - (lines.length - i - 1) * lineHeight;
+      const line = lines[i];
+      const x = line.column * colWidth + 10;
+  
+      const bugMatch = line.text.indexOf("[BUG]");
+      if (bugMatch === -1) {
+        ctx.fillStyle = "#0f0";
+        ctx.fillText(line.text, x, y);
+      } else {
+        const before = line.text.slice(0, bugMatch);
+        const bug = "[BUG]";
+        const after = line.text.slice(bugMatch + bug.length);
+  
+        ctx.fillStyle = "#0f0";
+        ctx.fillText(before, x, y);
+        const beforeWidth = ctx.measureText(before).width;
+  
+        ctx.fillStyle = "red";
+        ctx.fillText(bug, x + beforeWidth, y);
+        const bugWidth = ctx.measureText(bug).width;
+  
+        ctx.fillStyle = "#0f0";
+        ctx.fillText(after, x + beforeWidth + bugWidth, y);
+      }
+    }
+  }
+  
+function updateCommandDisplay() {
+  for (let i = 0; i < 3; i++) {
+    const cmdDiv = document.getElementById(`cmd${i}`);
+    cmdDiv.textContent = `[${commands[i]}]`;
+  }
+}
+
+// Call once at start and whenever commands change
+updateCommandDisplay();
+
+
+const typedInputContainer = document.getElementById("typedInputContainer");
+const hiddenInput = document.getElementById("hiddenInput");
+  
+let typedText = "";
+  
+// Focus hidden input to capture keyboard
+hiddenInput.focus();
+  
+  function renderTypedText() {
+    // Clear old content
+    typedInputContainer.innerHTML = "";
+  
+    // For each letter, create a span with a 'lit' style
+    for (const letter of typedText) {
+      const span = document.createElement("span");
+      span.textContent = letter;
+      span.style.color = "#0f0";  // bright green to indicate 'lit'
+      span.style.transition = "color 0.2s ease";
+      typedInputContainer.appendChild(span);
+    }
+  }
+  
+  // Listen for input events on hidden input
+  function pickThreeCommands() {
+    const shuffled = commandWords.slice().sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, 3);
+  }
+  
+  function updateCommandDisplay() {
+    for (let i = 0; i < 3; i++) {
+      const cmdDiv = document.getElementById(`cmd${i}`);
+      cmdDiv.textContent = `[${commands[i]}]`;
+    }
+  }
+  
+  hiddenInput.addEventListener("input", (e) => {
+    typedText = e.target.value.toLowerCase();
+    renderTypedText();
+  
+    const colIndex = commands.findIndex(cmd => cmd === typedText);
+    if (colIndex !== -1) {
+      const removed = removeBugFromColumn(colIndex);
+      if (removed) {
+        // Clear input on success
+        typedText = "";
+        hiddenInput.value = "";
+        renderTypedText();
+        updateScore(1)
+
+  
+        // **Pick new commands and update display!**
+        commands = pickThreeCommands();
+        updateCommandDisplay();
+      } else {
+        // Optional: no bug to remove in that column
+      }
+    }
   });
   
   
-  function updatelives() {
-      lives -= 1;
-      const livesDisplay = document.getElementById("lives");
-      livesDisplay.textContent = `Lives: ${lives}`;
-  };
   
-  function updatescore() {
-      score += 1;
-      const scoreDisplay = document.getElementById("score");
-      scoreDisplay.textContent = `Score: ${score}`;
-  };
-  
-  function activewords() {
-      const shuffled = words.sort(() => Math.random() - 0.5);
-      return shuffled.slice(0, 3);
-  };
-  
-  //let activeWords = activewords();
-  
-  function updatewords() {
-      for (let i = 0; i < 3; i++) {
-          const wordElement = document.getElementById(`word${i}`);
-          if (wordElement) {
-              wordElement.textContent = activewords()[i];
-          }
-      }
-  };
-  
-  function generatealog() {
-      const base = logsfillers[Math.floor(Math.random() * logsfillers.length)];
-      const column = Math.floor(Math.random() * 3); // generate either position 0, 1 or 2
-  
-      let log = base;
-      let containBug = false;
-  
-      if (Math.random() < changeofbug) {
-          containBug = true;
-          const bug = "[BUG]";
-          const position = Math.floor(Math.random() * 3); // also generates position 0, 1 or 2
-  
-          if (position === 0) {
-              log = bug + log;
-          } else if (position === 1) {
-              log = log + bug;
-          } else {
-              const words = base.split(" ");
-              const middle = Math.floor(words.length / 2);
-              words.splice(middle, 0, bug);
-              log = words.join(" ");
-          }}
-          return {
-              text: log,
-              containBug: containBug,
-              coloum: coloum
-          };
-  
-  
-      }
-  
-  let logs = [];
-  
-  function movelogsup() {
-      if (gameOver) return;
-      logs.push(generatealog());
-      if (logs.length > 20) {
-          logs.shift();    // Removes the oldest log if we have more than 20
-          if (logs[0].containBug) {      // check to see if logs[0] works instead of defining another variable of removedline
-              updatelives();
-              console.log("Bug escaped! Lives left:", lives);
-              if (lives <= 0) {
-                  endgame();
-              }
-          }
-      }
-  }
-  
-  function drawlogs() {
-      ctx.clearRect(0, 0, width, height);
-      ctx.strokeStyle = "#333";
-      ctx.font = "16px monospace";
-  
-  
-      logs.forEach((log, index) => {
-          const col = index % 3;
-          const x = col * colwidth + 10; // Add some padding
-          const y = height - (index * lineHeight) - 10; // Adjust for line height and padding
-  
-  
-          const bugMatch = log.text.indexOf("[BUG]") !== -1; // if its got a bug, true and vice versa
-  
-  
-          ctx.fillStyle = bugMatch ? "red" : "#0f0"; // Compact if else statement
-  
-          if (bugMatch) {
-              const beforeBug = log.text.split("[BUG]")[0];
-              const afterBug = log.text.split("[BUG]")[1];
-              const bug = "[BUG]";
-  
-              ctx.fillStyle = "#0f0";
-              ctx.fillText(beforeBug, x, y);
-              const beforeWidth = ctx.measureText(beforeBug).width;
-  
-              ctx.fillStyle = "red";
-              ctx.fillText(bug, x + beforeWidth, y);
-              const bugWidth = ctx.measureText(bug).width;
-  
-              ctx.fillStyle = "#0f0"
-              ctx.fillText(afterBug, x + beforeWidth + bugWidth, y)
-  
-          } else {
-              ctx.fillStyle = "#0f0"
-              ctx.fillText(log.text, x, y);
-          }
-      });
-  }
-  
-  
-  const inputContainer = document.getElementById("inputContainer");
-  const hiddenInput = document.getElementById("hiddenInput");
-  
-  let typed = "";
-  
-  hiddenInput.focus(); // captures input without user clicking
-  
-  function rendertyped() {
-      inputContainer.innerHTML = ""; // Clear previous input
-  
-      for (const letter of typed) {
-          const span = document.createElement("span");
-          span.textContent = letter;
-          span.style.colour = "#0f0";
-          span.style.transition = "color 0.2s ease";
-          inputContainer.appendChild(span);
-      }
-  }
-  
-  function removebug(col) {
-      for (let i=0; i < logs.length; i++) {
-          if (logs[i].text.toLowerCase().includes("[bug]") && i % 3 === col) {
-              logs.splice(i, 1);
-              updatescore();
-              return true; // Exit loop after removing one bug
-          }
-      }
-      return false; // No bug found in that column
-  }
-  
-  
-  hiddenInput.addEventListener("input", (event) => {
-      typed = event.target.value.toLowerCase();
-      rendertyped();
-  
-      const columnIndex = words.findIndex(word => word.toLowerCase() === typed);
-      if (columnIndex !== -1) {
-          const removed = removebug(columnIndex)
-          if (removed) {
-              typed = "";
-              hiddenInput.value = ""; 
-              rendertyped();
-              updatewords();
-  
-              words = activewords(); // Update words after removing a bug
-              updatewords();
-          } else {
-              console.log("No bug found in that column.");
-          }
-  }
-  });
-  
-  
-  window.addEventListener("click", () => hiddenInput.focus()); //maintains focus on input rather than user clicking everytime
+  // Keep focus on hidden input (important for continuous typing)
+  window.addEventListener("click", () => hiddenInput.focus());
   window.addEventListener("keydown", () => hiddenInput.focus());
   
-  function endGame() {
-      gameOver = true;
+function removeBugFromColumn(col) {
+  // Find the first bug in the lines array in column `col`
+  for (let i = 0; i < lines.length; i++) {
+    if (lines[i].isBug && lines[i].column === col) {
+      lines.splice(i, 1); // Remove that bug line
+      return true; // Success
+    }
+  }
+  return false; // No bug found in that column
+}
+
+function endGame() {
+    gameOver = true;
   
-      lines = Array(maxLines).fill().map(() => ({
-        text: "!!! SYSTEM FAILURE !!!",
-        column: Math.floor(Math.random() * cols),
-        containBug: false
-      }));
-    
+    // Replace all lines with failure messages
+    lines = Array(maxLines).fill().map(() => ({
+      text: "!!! SYSTEM FAILURE !!!",
+      column: Math.floor(Math.random() * cols),
+      isBug: false
+    }));
+  
+    drawLogs();
+  
+    // Optional: stop canvas updates entirely
+    // clearInterval(yourIntervalID);
+  }
+  
+
+let baseSpeed = 1000; // base speed factor
+let currentSpeed = baseSpeed; // multiplier for game speed
+
+
+// Remove or comment out any old setInterval calls.
+
+function tick() {
+    if (!gameOver) {
+      scrollLines();
       drawLogs();
+  
+      currentSpeed = Math.max(250, baseSpeed - score * 10);
+      setTimeout(tick, currentSpeed);
     }
+  }
   
-    let gamespeed = 1000
-    let currentSpeed = gamespeed;
+//  tick(); // Start the loop!
   
-    function startgame() {
-      if (!gameOver) {
-          movelogsup();
-          drawlogs();
+ // 1 second per scroll
+
+//setInterval(() => {
+//    scrollLines();
+ //   drawLogs();
+ // }, 1000*gamespeed);
   
-          currentSpeed = Math.max(250, gamespeed - score * 10)
-          setTimeout(tick, currentSpeed);
-      }
-    }
-  
-  
-  drawBackground();
-  
-  
-  
-  });
+
+
+
+drawBackground();
+
+});

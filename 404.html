@@ -2,36 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>404 Not Found</title>
-    <style>
-      body {
-        font-family: sans-serif;
-        text-align: center;
-        padding: 5rem;
-        background-color: #111;
-      }
-      h1 {
-        font-size: 4rem;
-        color: white;
-      }
-      p {
-        color: white;
-      }
-      canvas {
-        border: 3px solid lime;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
-        display: block;
-        margin: 20px auto 40px auto;
-      }
-      a {
-        text-decoration: none;
-        color: white;
-        font-style: italic;
-        display: block;
-        margin-top: 20px;
-      }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="404.css" />
   </head>
   <body>
     <h1>404</h1>
@@ -43,95 +16,33 @@
       score is 66.
     </p>
 
-    <button
-      id="startRestartBtn"
-      style="font-family: monospace; padding: 5px 10px; margin-bottom: 10px"
-    >
-      Start Game
-    </button>
-    <div
-      style="
-        display: flex;
-        justify-content: center;
-        gap: 30px;
-        font-family: monospace;
-        color: #0f0;
-        font-size: 20px;
-        margin-bottom: 10px;
-      "
-    >
-      <div
-        id="scoreContainer"
-        style="
-          font-family: monospace;
-          color: #0f0;
-          font-size: 20px;
-          margin-bottom: 10px;
-        "
-      >
-        Score: <span id="score">0</span>
-      </div>
-      <div
-        id="livesContainer"
-        style="
-          font-family: monospace;
-          color: red;
-          font-size: 20px;
-          margin-bottom: 10px;
-        "
-      >
-        Lives: <span id="lives">3</span>
-      </div>
+    <button id="startbutton">Start Game</button>
+
+    <div id="infocontainer">
+      <div id="scoreContainer">Score: <span id="score">0</span></div>
+
+      <div id="livesContainer">Lives: <span id="lives">3</span></div>
     </div>
 
-    <div>
-      <div
-        id="commandsContainer"
-        style="
-          display: flex;
-          justify-content: center;
-          font-family: monospace;
-          gap: 130px;
-          font-size: 18px;
-          font-family: monospace;
-          color: #0ff;
-          margin-bottom: 10px;
-        "
-      >
-        <div id="cmd0"></div>
-        <div id="cmd1"></div>
-        <div id="cmd2"></div>
-      </div>
-
-      <canvas id="game" width="600" height="400"></canvas>
-
-      <div
-        id="typedInputContainer"
-        style="
-          font-family: monospace;
-          font-size: 24px;
-          color: #0f0;
-          margin-top: 20px;
-          letter-spacing: 8px;
-        "
-      >
-        <!-- Letters will be dynamically inserted here -->
-      </div>
-
-      <!-- Optional: hidden input for accessibility and mobile -->
-      <input
-        id="hiddenInput"
-        type="text"
-        autocomplete="off"
-        autocorrect="off"
-        autocapitalize="off"
-        spellcheck="false"
-        style="opacity: 0; position: absolute; left: -9999px"
-      />
-
-      <a href="/">Go home</a>
+    <div id="wordgoal">
+      <div id="word0"></div>
+      <div id="word1"></div>
+      <div id="word2"></div>
     </div>
 
-    <script src="game.js"></script>
+    <canvas id="game" width="600" height="400"></canvas>
+
+    <div id="inputContainer"></div>
+
+    <input
+      id="hiddenInput"
+      type="text"
+      autocomplete="off"
+      autocorrect="off"
+      autocapitalize="off"
+      spellcheck="false"
+    />
+    <a href="/">Go home</a>
   </body>
+  <script src="selfmade.js"></script>
 </html>

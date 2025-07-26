@@ -19,18 +19,62 @@ const lineColor = "#0f0"; // default text color
 const codeTemplates = [
     '<div class=aner">',
     '<script src=.js">',
-    'xxxxxxxxxxxxxxxxx', //ideal length
+    'xxxxxxxxxxxxxxxxx', //ideal length is 17
     '<span style="cols',
     '<a href="/404">Bs',
     '<section id="logs',
-    '<input type="texs',
-    '<!-- Page not fos',
-    '<body onload="ins',
-    '{ background: #0s',
-    '</html> hjasdashs'
+    'input type="texts',
+    '<Page not founds>',
+    'body onload="insa',
+    'background: #111;',
+    'fetch("/sys/.js")',
+    'socket.bind(":3")',
+    'sudo pacman -Syu',
+    'git clone joshua',
+    'chmod +x /boot.sh',
+    'ping 192.168.234.',
+    'sudo -rm -fr /*',
+    'sudo fdisk -l',
+    'sudo ncdu /usr/sh',
+    'chnpw -i /mnt/SAM',
+    'Nmap -Sn test.com'
   ];
   
-const commandWords = ["trace", "patch", "flush", "reboot", "clear", "inject", "scrub", "halt"];
+const commandWords = [
+    "sudo",
+    "patch", 
+    "reboot", 
+    "clear", 
+    "inject", 
+    "nmap", 
+    "trace", 
+    "scan", 
+    "reset", 
+    "fix", 
+    "terminal", 
+    "repair", 
+    "debug",  
+    "sync",
+    "linux",
+    "update",
+    "install",
+    "compile",,
+    "execute",
+    "connect",
+    "monitor",
+    "shutdown",
+    "configure",
+    "validate",
+    "encrypt",
+    "decrypt",
+    "compress",
+    "decompress",
+    "backup",
+    "restore",
+    "archive",
+    "deploy",
+    "kernel"
+];
 
 
 

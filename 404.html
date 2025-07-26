@@ -37,37 +37,51 @@
     <h1>404</h1>
     <p>
       The page you're looking for doesn't exist. You either were trying to do
-      something sneaky, or you wanted to play the game here.
+      something sneaky, or you wanted to play the game here.<br />
+      To play, press start and then type out the word with the bugs in it. Make
+      sure none of the bugs reach the top! It gets harder as it goes on. My high
+      score is 66.
     </p>
 
     <button
       id="startRestartBtn"
-      style="font-family: monospace; padding: 10px 20px; margin-bottom: 10px"
+      style="font-family: monospace; padding: 5px 10px; margin-bottom: 10px"
     >
       Start Game
     </button>
-
     <div
-      id="scoreContainer"
       style="
+        display: flex;
+        justify-content: center;
+        gap: 30px;
         font-family: monospace;
         color: #0f0;
         font-size: 20px;
         margin-bottom: 10px;
       "
     >
-      Score: <span id="score">0</span>
-    </div>
-    <div
-      id="livesContainer"
-      style="
-        font-family: monospace;
-        color: red;
-        font-size: 20px;
-        margin-bottom: 10px;
-      "
-    >
-      Lives: <span id="lives">3</span>
+      <div
+        id="scoreContainer"
+        style="
+          font-family: monospace;
+          color: #0f0;
+          font-size: 20px;
+          margin-bottom: 10px;
+        "
+      >
+        Score: <span id="score">0</span>
+      </div>
+      <div
+        id="livesContainer"
+        style="
+          font-family: monospace;
+          color: red;
+          font-size: 20px;
+          margin-bottom: 10px;
+        "
+      >
+        Lives: <span id="lives">3</span>
+      </div>
     </div>
 
     <div>

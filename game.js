@@ -1,3 +1,7 @@
+document.addEventListener("DOMContentLoaded", () => {
+
+
+
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 
@@ -27,6 +31,47 @@ const codeTemplates = [
   ];
   
 const commandWords = ["trace", "patch", "flush", "reboot", "clear", "inject", "scrub", "halt"];
+
+
+
+const startRestartBtn = document.getElementById("startRestartBtn");
+
+let gameRunning = false;
+
+startRestartBtn.addEventListener("click", () => {
+  if (gameOver) {
+    location.reload();
+  } else if (!gameRunning) {
+    gameRunning = true;
+    startRestartBtn.textContent = "Restart Game";
+    lives = 3;
+    score = 0;
+    gameOver = false;
+    updateLivesDisplay();
+    updateScore(0);
+    tick();
+  }
+});
+
+
+
+
+
+
+
+let lives = 3;
+let gameOver = false;
+
+
+
+
+
+
+
+function updateLivesDisplay() {
+  const el = document.getElementById("lives");
+  if (el) el.textContent = lives;
+}
 
 
 let score = 0;
@@ -102,9 +147,26 @@ let lines = [];
 const maxLines = 20; // depends on canvas height
 
 function scrollLines() {
-  lines.push(generateLine());
-  if (lines.length > maxLines) lines.shift();
-}
+    if (gameOver) return;
+  
+    lines.push(generateLine());
+  
+    if (lines.length > maxLines) {
+      const removedLine = lines.shift();
+  
+      // ⚠️ Check if the removed line was a bug
+      if (removedLine.isBug) {
+        lives--;
+        updateLivesDisplay();
+        console.log("Bug escaped! Lives left:", lives);
+  
+        if (lives <= 0) {
+          endGame();
+        }
+      }
+    }
+  }
+  
 
 function drawLogs() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -242,18 +304,51 @@ function removeBugFromColumn(col) {
   return false; // No bug found in that column
 }
 
-
-
+function endGame() {
+    gameOver = true;
   
-
-setInterval(() => {
-    scrollLines();
+    // Replace all lines with failure messages
+    lines = Array(maxLines).fill().map(() => ({
+      text: "!!! SYSTEM FAILURE !!!",
+      column: Math.floor(Math.random() * cols),
+      isBug: false
+    }));
+  
     drawLogs();
-  }, 1000);
+  
+    // Optional: stop canvas updates entirely
+    // clearInterval(yourIntervalID);
+  }
   
 
+let baseSpeed = 1000; // base speed factor
+let currentSpeed = baseSpeed; // multiplier for game speed
 
+
+// Remove or comment out any old setInterval calls.
+
+function tick() {
+    if (!gameOver) {
+      scrollLines();
+      drawLogs();
+  
+      currentSpeed = Math.max(250, baseSpeed - score * 10);
+      setTimeout(tick, currentSpeed);
+    }
+  }
+  
+//  tick(); // Start the loop!
+  
+ // 1 second per scroll
+
+//setInterval(() => {
+//    scrollLines();
+ //   drawLogs();
+ // }, 1000*gamespeed);
+  
 
 
 
 drawBackground();
+
+});

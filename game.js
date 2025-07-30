@@ -137,7 +137,7 @@ function pickThreeCommands() {
     return shuffled.slice(0, 3); // Pick first 3
   }
   
-  let commands = pickThreeCommands(); // e.g. ["flush", "trace", "clear"]
+  let commands = pickThreeCommands(); 
   
 
 
@@ -147,7 +147,6 @@ function drawBackground() {
   ctx.fillStyle = bgColor;
   ctx.fillRect(0, 0, width, height);
 
-  // draw vertical column lines
   ctx.strokeStyle = "#222";
   for (let i = 1; i < cols; i++) {
     ctx.beginPath();
@@ -188,7 +187,7 @@ function generateLine() {
   
 
 let lines = [];
-const maxLines = 20; // depends on canvas height
+const maxLines = 20; 
 
 function scrollLines() {
     if (gameOver) return;
@@ -198,7 +197,6 @@ function scrollLines() {
     if (lines.length > maxLines) {
       const removedLine = lines.shift();
   
-      // ⚠️ Check if the removed line was a bug
       if (removedLine.isBug) {
         lives--;
         updateLivesDisplay();
@@ -219,7 +217,7 @@ function drawLogs() {
   
     ctx.textAlign = "left";
   
-    // Draw vertical dividers
+   
     ctx.strokeStyle = "#222";
     for (let i = 1; i < 3; i++) {
       ctx.beginPath();
@@ -230,7 +228,7 @@ function drawLogs() {
 
 
   
-    // Draw logs with extra padding at top
+    
     const topPadding = 50;
     ctx.font = "14px monospace";
     for (let i = 0; i < lines.length; i++) {
@@ -268,7 +266,7 @@ function updateCommandDisplay() {
   }
 }
 
-// Call once at start and whenever commands change
+
 updateCommandDisplay();
 
 
@@ -276,25 +274,25 @@ const typedInputContainer = document.getElementById("typedInputContainer");
 const hiddenInput = document.getElementById("hiddenInput");
   
 let typedText = "";
-  
-// Focus hidden input to capture keyboard
+ 
+
 hiddenInput.focus();
   
   function renderTypedText() {
     // Clear old content
     typedInputContainer.innerHTML = "";
   
-    // For each letter, create a span with a 'lit' style
+    
     for (const letter of typedText) {
       const span = document.createElement("span");
       span.textContent = letter;
-      span.style.color = "#0f0";  // bright green to indicate 'lit'
+      span.style.color = "#0f0"; 
       span.style.transition = "color 0.2s ease";
       typedInputContainer.appendChild(span);
     }
   }
   
-  // Listen for input events on hidden input
+
   function pickThreeCommands() {
     const shuffled = commandWords.slice().sort(() => Math.random() - 0.5);
     return shuffled.slice(0, 3);
@@ -322,27 +320,26 @@ hiddenInput.focus();
         updateScore(1)
 
   
-        // **Pick new commands and update display!**
         commands = pickThreeCommands();
         updateCommandDisplay();
       } else {
-        // Optional: no bug to remove in that column
+        // pass
       }
     }
   });
   
   
   
-  // Keep focus on hidden input (important for continuous typing)
+  // Keep focus on hidden input
   window.addEventListener("click", () => hiddenInput.focus());
   window.addEventListener("keydown", () => hiddenInput.focus());
   
 function removeBugFromColumn(col) {
-  // Find the first bug in the lines array in column `col`
+
   for (let i = 0; i < lines.length; i++) {
     if (lines[i].isBug && lines[i].column === col) {
-      lines.splice(i, 1); // Remove that bug line
-      return true; // Success
+      lines.splice(i, 1);
+      return true; 
     }
   }
   return false; // No bug found in that column
@@ -351,7 +348,6 @@ function removeBugFromColumn(col) {
 function endGame() {
     gameOver = true;
   
-    // Replace all lines with failure messages
     lines = Array(maxLines).fill().map(() => ({
       text: "!!! SYSTEM FAILURE !!!",
       column: Math.floor(Math.random() * cols),
@@ -359,17 +355,13 @@ function endGame() {
     }));
   
     drawLogs();
-  
-    // Optional: stop canvas updates entirely
-    // clearInterval(yourIntervalID);
   }
   
 
-let baseSpeed = 1000; // base speed factor
-let currentSpeed = baseSpeed; // multiplier for game speed
+let baseSpeed = 1000;
+let currentSpeed = baseSpeed;
 
 
-// Remove or comment out any old setInterval calls.
 
 function tick() {
     if (!gameOver) {
@@ -381,7 +373,7 @@ function tick() {
     }
   }
   
-//  tick(); // Start the loop!
+//  tick();
   
  // 1 second per scroll
 

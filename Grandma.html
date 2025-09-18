@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Cross-stitch</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        text-align: center;
+        padding: 5rem;
+        background-color: #111;
+        color: white;
+      }
+      .controls {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin: 8px 0;
+      }
+      canvas {
+        border: 1px solid #ddd;
+        margin-top: 12px;
+        max-width: 100%;
+        height: auto;
+        background: white;
+      }
+      label {
+        font-size: 14px;
+      }
+      button {
+        padding: 6px 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Cross Stitch Pattern Maker</h1>
+    <h2>For Grandma<h2>
+    
+  <h4>Instructions</h4>
+    <p>1. Upload an image by clicking on the brows button below and selecting an image.</p>
+    <p>2. You can slide the sliders below that to adjust the amount of stitches per inch and the amount of different coloured threads you'll need.</p>
+    <p>3. You can press the toggle grid button to disable or enable the overlaying grid.</p>
+    <p>4. Once you're happy with the image, you can download it by clicking the download button to either print it out or come back to it another day.</p>
+
+
+    <input type="file" id="upload" accept="image/*" /><br />
+
+    <div class="controls">
+      <label
+        >Size of each square
+        <input id="gridSize" type="range" min="5" max="60" value="20" />
+      </label>
+      <span id="gridValue">20</span>
+
+
+      
+      <label
+        >Amount of colours
+        <input id="colorDepth" type="range" min="2" max="64" value="16" />
+      </label>
+      <span id="depthValue">16</span>
+
+      <button id="toggleGrid">Toggle Grid</button>
+      <button id="download">Download</button>
+    </div>
+
+    <canvas id="canvas"></canvas>
+
+    <script src="Grandma.js"></script>
+
+</html>

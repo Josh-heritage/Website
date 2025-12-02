@@ -1,11 +1,7 @@
 <script>
   fetch("https://metoffice-proxy.joshjacksonheritage.workers.dev")
-    .then((resp) => {
-      if (!resp.ok) throw new Error("Network response was not ok");
-      return resp.json();
-    })
+    .then((resp) => resp.json())
     .then((data) => {
-      console.log("Forecast for 23:00 tonight:", data);
       document.getElementById("temperature").textContent =
         data.temperature + "°C";
     })

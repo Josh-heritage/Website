@@ -16,11 +16,16 @@
       }
       body {
         background-color: #111;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       }
       p,
       h2 {
         color: white;
         text-align: center;
+      }
+      /* Clean spacing class to replace manual <br> chains */
+      .section-block {
+        margin-bottom: 35px;
       }
     </style>
   </head>
@@ -28,9 +33,11 @@
   <body>
     <p>
       This page is still in development, please ignore any bugs or rough
-      features. Looking for the game, <a href="./404.html"><b>click here!<b><a>
+      features. Looking for the game, <a href="./404.html" style="color: #64ffda;"><b>click here!</b></a>
     </p>
+    
     <h1 class="name" style="text-align: center">Joshua Jackson Heritage</h1>
+    
     <h2
       style="
         font-size: 20px;
@@ -42,17 +49,15 @@
     >
       Contact
     </h2>
-    <p style="color: white; text-align: center">
-      Email: <a href="mailto:joshua@jacksonheritage.com"
-      style="color: white; text-decoration: none; font-style: italic"
-      >joshua@jacksonheritage.com<a>
-        <br />Linkedin:
-      <a
-        href="www.linkedin.com/in/joshua-jackson-heritage-008a85254"
-        style="color: white; text-decoration: none; font-style: italic"
-        >Joshua Jackson-Heritage</a
-      >
+    
+    <p style="color: white; text-align: center; line-height: 1.8;">
+      Email: <a href="mailto:joshua@jacksonheritage.com" style="color: white; text-decoration: none; font-style: italic">joshua@jacksonheritage.com</a>
+      <br />
+      LinkedIn: <a href="https://www.linkedin.com/in/joshua-jackson-heritage-008a85254" style="color: white; text-decoration: none; font-style: italic">Joshua Jackson-Heritage</a>
+      <br />
+      Tor Network Mirror: <a href="http://bauxwhjpz7cetrq22a7yz6bhbysplzz22mvsufdhvoxn5o7577wm54yd.onion/" style="color: #64ffda; text-decoration: none; font-style: italic">Onion Link</a>
     </p>
+    
     <h2
       style="
         font-size: 20px;
@@ -64,56 +69,32 @@
     >
       About
     </h2>
-    <div style="max-width: 600px; margin: 0 auto; text-align: justify">
-      <p style="text-align: left">
-        <b>Who am I?</b><br /><br />
+    
+    <div style="max-width: 600px; margin: 0 auto; text-align: justify; color: white;">
+      
+      <div class="section-block">
+        <p style="text-align: left"><b>Who am I?</b></p>
+        <p style="text-align: left">I handle enterprise operations and incident management at The Met Office, keeping critical systems stable and running 24/7. I bring these skills into my home life by creating and maintaining my own fleet of production-grade servers running this website, my Tor mirror, file servers, and much more.</p> 
+        <p style="text-align: left">However, that's not me—that's what I do. I skipped university and went straight into a graduate production environment. Although I cut education short, I am still studying on the side for my AWS Certified Cloud Practitioner exam while always considering myself a student—constantly learning from everyone and everything, and constantly adapting to any environment or system.</p>
+        <p style="text-align: left">I have a very diverse portfolio of languages including Bash, Python, C, JavaScript, HTML, CSS, SQL, and PowerShell, while working with cloud infrastructure such as AWS in a professional setting and OCI at home.</p>
+      </div>
 
-        Although I have formally finished school, I still consider myself a
-        student. I am constantly learning from everyone and everything, related
-        to computer science and everything else. I truly believe that everyone
-        has something to teach me, So if you feel you have something I can learn
-        from you, I'd love to connect or hear from you.
-        <br /><br />
-        I program in Bash, Python, C, Javascript, HTML, CSS and SQL using them
-        to ethically hack, experiment and develop software that matters.
-        <br /><br />
-        In addition to this, The problem solving and binary mindset - which
-        computer science is built on - sparked deep interests into both
-        economics and law. I'm a passionate trader and have personally navigated
-        several legal challenges, So expect the occasional post about finance or
-        legal insights.
-        <br /><br /><br />
-        <b>What I'm doing now.</b>
-        <br /><br />
-        Currently I am developing and maintaining an open source operating
-        system based on the Linux kernel, It is held on GitHub for anyone to
-        fork and contribute to.
-        <br /><br />
-        I'm also running my own home server, which I use to self-host files,
-        containerised services (including game servers and web servers), and a
-        local smart assistant system.
-        <br /><br />
-        On the economics side, I'm currently focused on forex and maintaining a
-        well structured dividend portfolio.
-        <br /><br />
-        In addition to this, I am building and maintaining my own home server to
-        host files, hold containers for game servers, webservers and a local
-        smart assistant.
-        <br /><br /><br />
-        <b>Where I'm going?</b>
-        <br /><br />
-        I'm seeking to strengthen my understanding in fundamental of computing,
-        low-level software, system architecture and the software side of
-        networking.
-        <br /><br />
-        Economics wise, I am wanting to diversify my portfolio with
-        cryptocurrencies to deepen my understanding of financial systems and
-        cybersecurity.
-        <br /><br /><br />
-        <b>TL;DR</b>
-        <br /><br />
-        I'm a terminal junkie obsessed with Linux and DIY software projects.
-      </p>
+      <div class="section-block">
+        <p style="text-align: left"><b>What I'm doing now.</b></p>
+        <p style="text-align: left">I'm hosting a local lab running on Arch Linux. The entire system is fully containerised via Podman and is powering daily utilities like Immich, Nextcloud, and Syncthing.</p>
+        <p style="text-align: left">On Oracle Cloud Infrastructure (OCI), I am running a hardened Red Hat Enterprise Linux (RHEL) instance configured with a webserver operating entirely behind Tor network onion routing to experiment with advanced cryptographic privacy, network isolation, and deep perimeter security.</p>
+      </div>
+
+      <div class="section-block">
+        <p style="text-align: left"><b>Where I'm going?</b></p>
+        <p style="text-align: left">I'm seeking to strengthen my understanding of production-based environments, specifically when involved with Linux while keeping cloud infrastructure in mind. On the back burner, I will keep studying towards the mathematical side of cryptography, as that is a great passion of mine.</p>
+      </div>
+
+      <div class="section-block">
+        <p style="text-align: left"><b>TL;DR</b></p>
+        <p style="text-align: left; font-family: 'Courier New', Courier, monospace; color: #64ffda;">I'm a terminal junkie obsessed with Linux and DIY software projects.</p>
+      </div>
+
     </div>
   </body>
 </html>
